@@ -26,7 +26,7 @@ export const auth = (authData) => {
   return dispatch => {
     const expirationTime = new Date(authData.expires_at).getTime() - new Date().getTime();
     const user = {
-      token: authData.token,
+      token: authData.token_type + ' ' + authData.token,
       token_type: authData.token_type,
       user_id: authData.id,
       email: authData.attributes.email,

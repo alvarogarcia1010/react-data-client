@@ -26,7 +26,6 @@ const Login = props => {
 
     if(response.data)
     {
-      console.log(response.data.data)
       props.onAuthSuccess(response.data.data)
     }
   };

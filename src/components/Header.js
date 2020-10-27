@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar, Nav} from 'react-bootstrap';
+import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import {LinkContainer} from "react-router-bootstrap"
 
 const Header = props => {
@@ -16,14 +16,15 @@ const Header = props => {
             <LinkContainer exact to="/usuarios">
               <Nav.Link>Usuarios</Nav.Link>
             </LinkContainer>
-            <LinkContainer exact to="/">
-              <Nav.Link>
-                <img className="rounded-circle mr-2" src="https://secure.gravatar.com/avatar/f36d4d3a6b2d5f6058b7f99b6d698508?s=30&r=x&d=mm" alt="profile"/>
-                <span>
-                  {"Alvaro García"}
-                </span>
-              </Nav.Link>
-            </LinkContainer>   
+            <div className="d-flex flex-row"> 
+              <NavDropdown title={<b>Alvaro García</b>} id="basic-nav-dropdown">
+                <LinkContainer exact to="/logout">
+                  <NavDropdown.Item>Cerrar sesión</NavDropdown.Item>
+                </LinkContainer>
+              </NavDropdown> 
+            </div>
+            
+  
           </Nav>
         </Navbar.Collapse>
       </Navbar>
