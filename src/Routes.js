@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route, Switch, Redirect} from 'react-router-dom'
+import PrivateRoute from './PrivateRoute'
 import Articles from './views/Articles/Articles'
 import Login from './views/Login/Login'
 import Register from './views/Register/Register'
@@ -10,8 +11,8 @@ const Routes = props => {
     <Switch>
       <Route exact path="/login" component={Login}/>
       <Route exact path="/registrarme" component={Register}/>
-      <Route exact path="/productos" component={Articles}/>
-      <Route exact path="/usuarios" component={Users}/>
+      <PrivateRoute path='/productos' component={Articles}/>
+      <PrivateRoute path='/usuarios' component={Users}/>
       <Redirect to="/productos"/>
     </Switch>
   )
