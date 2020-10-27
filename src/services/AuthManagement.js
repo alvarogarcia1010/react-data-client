@@ -29,6 +29,41 @@ const login = async (data) => {
   }
 }
 
+const register = async (data) => {
+  let response;
+
+  try 
+  {
+    let url = axiosInstance.defaults.baseURL + 'register';
+    response = await axiosInstance.post(url, data);
+  } 
+  catch (error) 
+  {
+    response = error.response.data;
+
+    if(error.response.status === 422)
+    {
+      let details = '<ul>';
+
+      response.errors.forEach(error => {
+        details += `<li>${error.title}</li>`; 
+      });
+
+      details += '</ul>';
+
+      fireMessage("Información", details, 'info', true);
+    }
+    else
+    {
+      fireErrorMessage();
+    }
+  }
+  finally
+  {
+    return response;
+  }
+}
+
 const logout = async (token) => {
   let response;
 
@@ -62,4 +97,4 @@ const logout = async (token) => {
 
 }
 
-export default {login, logout}
+export default {login, register, logout}

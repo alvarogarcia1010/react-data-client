@@ -16,7 +16,7 @@ const schema = yup.object().shape({
 
 const Login = props => {
   const {register, handleSubmit, errors, formState} = useForm({
-    mode: 'onBlur',
+    mode: 'onSubmit',
     resolver: yupResolver(schema)
   });
   const {isSubmitting, touched} = formState;
@@ -49,7 +49,7 @@ const Login = props => {
                 type="email" 
                 name="email"
                 isValid={touched.email && !errors.email}
-                isInvalid={touched.email && !!errors.email}
+                isInvalid={!!errors.email}
                 disabled={isSubmitting}
                 placeholder="usuario@example.com"
                 ref={register}
@@ -65,7 +65,7 @@ const Login = props => {
                 type="password" 
                 name="password" 
                 isValid={touched.password && !errors.password}
-                isInvalid={touched.password && !!errors.password}
+                isInvalid={!!errors.password}
                 disabled={isSubmitting}
                 placeholder="Password"
                 ref={register}
@@ -76,10 +76,10 @@ const Login = props => {
             </Form.Group>
             <div className="d-flex justify-content-between">
               <div className="mb-4">
-                <small>¿Aún no tienes cuenta? <Link to="/registrarme">Registrate</Link></small>
+                <Link to="/recuperar-clave"><small>¿Olvidaste tu contraseña?</small></Link>
               </div>
               <div className="mb-4">
-                <Link to="/recuperar-clave"><small>¿Olvidaste tu contraseña?</small></Link>
+                <small>¿Aún no tienes cuenta? <Link to="/registrarme">Registrate</Link></small>
               </div>
             </div>
 

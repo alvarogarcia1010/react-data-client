@@ -10,7 +10,6 @@ class Logout extends Component
   {
     AuthManagement.logout(this.props.token)
       .then(response => {
-        console.log(response);
         this.props.onLogout();
       })
   }

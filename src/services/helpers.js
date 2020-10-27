@@ -35,12 +35,13 @@ export const fireErrorMessage = () => {
   })
 };
 
-export const fireMessage = (title = '', text = '', icon='info') => {
+export const fireMessage = (title = '', text = '', icon='info', html=false) => {
   const MySwal = withReactContent(Swal)
   MySwal.fire({
     icon: icon,
     title: title,
-    text: text,
+    text: !html? text : null,
+    html: html? text: null,
     width: "30rem",
     confirmButtonColor: '#00909E',
     confirmButtonText: 'Aceptar',
