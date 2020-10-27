@@ -64,6 +64,34 @@ const register = async (data) => {
   }
 }
 
+const resetPassword = async (data) => {
+  let response;
+
+  try 
+  {
+    let url = axiosInstance.defaults.baseURL + 'reset-password';
+    response = await axiosInstance.post(url, data);
+    response = response.data;
+  } 
+  catch (error) 
+  {
+    response = error.response.data;
+
+    if(error.response.status === 400)
+    {
+      fireMessage(response.errors.title, response.errors.detail);
+    }
+    else
+    {
+      fireErrorMessage();
+    }
+  }
+  finally
+  {
+    return response;
+  }
+}
+
 const logout = async (token) => {
   let response;
 
@@ -97,4 +125,4 @@ const logout = async (token) => {
 
 }
 
-export default {login, register, logout}
+export default {login, register, resetPassword, logout}

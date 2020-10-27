@@ -3,30 +3,34 @@ import {Link, Redirect} from 'react-router-dom'
 import {Card, Button, Form} from 'react-bootstrap'
 import {useForm} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
+import {fireToast} from '../../services/helpers'
 import AuthManagement from '../../services/AuthManagement'
 import * as yup from "yup"
 import * as action from '../../store/actions/index'
 import {connect} from 'react-redux'
-import classes from './Login.module.css'
 
 const schema = yup.object().shape({
   email: yup.string().email("Correo electronico no valido").required("Campo obligatorio"),
-  password: yup.string().required("Campo obligatiorio"),
 });
 
-const Login = props => {
+const ChangePassword = props => {
   const {register, handleSubmit, errors, formState} = useForm({
     mode: 'onBlur',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      token: props.match.params.token,
+      email: props.location.search.split("=")[1]
+    },
   });
   const {isSubmitting, touched} = formState;
   
-  const onSubmit = async data => {
-    const response = await AuthManagement.login(data);
+  const onSubmit = async (data, e) => {
+    const response = await AuthManagement.resetPassword(data);
 
     if(response.data)
     {
-      props.onAuthSuccess(response.data.data)
+      fireToast(response.data.message)
+      e.target.reset()
     }
   };
 
@@ -37,13 +41,21 @@ const Login = props => {
   }
 
   return (
-    <div className={classes.LoginContainer}>
+    <div className="card-container">
       {authRedirect}
-      <Card className={classes.CustomCard}>
+      <Card className="custom-card">
         <Card.Body>
-          <Card.Title className="text-center">Inicio de sesión</Card.Title>
+          <Card.Title className="text-center">Cambiar contraseña</Card.Title>
+          <Card.Text><small>Se le enviará un correo con el enlace para poder restablecer su contraseña</small> </Card.Text>
           <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-            <Form.Group controlId="email">
+            <Form.Control 
+              type="hidden" 
+              name="token"
+              disabled={isSubmitting}
+              placeholder="token"
+              ref={register}
+            />
+            <Form.Group controlId="email" className="mb-2">
               <Form.Label required>Correo electrónico</Form.Label>
               <Form.Control 
                 type="email" 
@@ -73,17 +85,30 @@ const Login = props => {
                 {errors.password && errors.password.message}
               </Form.Control.Feedback>
             </Form.Group>
-            <div className="d-flex justify-content-between">
+
+            <Form.Group controlId="password_confirmation" className="mb-2">
+              <Form.Label required>Confirmar contraseña</Form.Label>
+              <Form.Control 
+                type="password" 
+                name="password_confirmation" 
+                isValid={touched.password_confirmation && !errors.password_confirmation}
+                isInvalid={!!errors.password_confirmation}
+                disabled={isSubmitting}
+                ref={register}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.password_confirmation && errors.password_confirmation.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <div className="d-flex justify-content-end">
               <div className="mb-4">
-                <Link to="/recuperar-clave"><small>¿Olvidaste tu contraseña?</small></Link>
-              </div>
-              <div className="mb-4">
-                <small>¿Aún no tienes cuenta? <Link to="/registrarme">Registrate</Link></small>
+                <small>¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link></small>
               </div>
             </div>
 
             <div className="d-flex justify-content-end">
-              <Button variant="primary" type="submit">Siguiente</Button>
+              <Button variant="primary" type="submit">Reestablecer</Button>
             </div>
           </Form>
           </Card.Body>
@@ -98,10 +123,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuthSuccess: (authData) => dispatch(action.auth(authData))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps)(ChangePassword);

@@ -8,7 +8,6 @@ import AuthManagement from '../../services/AuthManagement'
 import * as yup from "yup"
 import * as action from '../../store/actions/index'
 import {connect} from 'react-redux'
-import classes from './Register.module.css'
 
 const schema = yup.object().shape({
   name: yup.string().required("Campo obligatiorio"),
@@ -43,9 +42,9 @@ const Register = props => {
   }
 
   return (
-    <div className={classes.RegisterContainer}>
+    <div className="card-container">
       {authRedirect}
-      <Card className={classes.CustomCard}>
+      <Card className="custom-card">
         <Card.Body>
           <Card.Title className="text-center">Registrarme</Card.Title>
           <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -96,7 +95,7 @@ const Register = props => {
             </Form.Group>
 
             <Form.Group controlId="password" className="mb-2">
-              <Form.Label required>Password</Form.Label>
+              <Form.Label required>Contraseña</Form.Label>
               <Form.Control 
                 type="password" 
                 name="password" 
@@ -151,7 +150,7 @@ const Register = props => {
             </div>
 
             <div className="d-flex justify-content-end">
-              <Button variant="primary" type="submit">Siguiente</Button>
+              <Button variant="primary" type="submit">Crear cuenta</Button>
             </div>
           </Form>
           </Card.Body>

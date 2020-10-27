@@ -53,3 +53,27 @@ export const fireMessage = (title = '', text = '', icon='info', html=false) => {
     },
   })
 }
+
+export const fireToast = (title = '', icon = 'success', properties = {}) => {
+  const MySwal = withReactContent(Swal);
+
+  const Toast = MySwal.mixin(updateObject(
+    {
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    },
+    properties
+  ));
+  
+  Toast.fire({
+    icon: icon,
+    title: title
+  })
+}

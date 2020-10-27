@@ -5,6 +5,8 @@ import Articles from './views/Articles/Articles'
 import Login from './views/Login/Login'
 import Logout from './views/Logout/Logout'
 import Register from './views/Register/Register'
+import ChangePassword from './views/ResetPassword/ChangePassword'
+import ResetPassword from './views/ResetPassword/ResetPassword'
 import Users from './views/Users/Users'
 
 const Routes = props => {
@@ -12,6 +14,8 @@ const Routes = props => {
     <Switch>
       <Route exact path="/login" component={Login}/>
       <Route exact path="/registrarme" component={Register}/>
+      <Route exact path="/recuperar-clave" component={ResetPassword}/>
+      <Route exact path="/password/reset/:token" component={ChangePassword}/>
       <PrivateRoute path='/productos' component={Articles}/>
       <PrivateRoute path='/usuarios' component={Users}/>
       <PrivateRoute path='/logout' component={Logout}/>
