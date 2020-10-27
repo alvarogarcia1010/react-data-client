@@ -1,13 +1,22 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import Header from '../../components/Header'
 
-export default class Users extends Component {
+class Users extends Component {
   render() {
     return (
       <div>
-        <Header/>
+        <Header name={this.props.name}/>
         <h1>Usuarios</h1>
       </div>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    name: state.auth.name,
+  }
+}
+
+export default connect(mapStateToProps)(Users);

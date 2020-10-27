@@ -6,7 +6,7 @@ const login = async (data) => {
 
   try 
   {
-    let url = axiosInstance.defaults.baseURL + 'login';
+    let url = axiosInstance.defaults.baseURL + '/login';
     response = await axiosInstance.post(url, data);
   } 
   catch (error) 
@@ -34,7 +34,7 @@ const register = async (data) => {
 
   try 
   {
-    let url = axiosInstance.defaults.baseURL + 'register';
+    let url = axiosInstance.defaults.baseURL + '/register';
     response = await axiosInstance.post(url, data);
   } 
   catch (error) 
@@ -69,7 +69,35 @@ const resetPassword = async (data) => {
 
   try 
   {
-    let url = axiosInstance.defaults.baseURL + 'reset-password';
+    let url = axiosInstance.defaults.baseURL + '/reset-password';
+    response = await axiosInstance.post(url, data);
+    response = response.data;
+  } 
+  catch (error) 
+  {
+    response = error.response.data;
+
+    if(error.response.status === 400)
+    {
+      fireMessage(response.errors.title, response.errors.detail);
+    }
+    else
+    {
+      fireErrorMessage();
+    }
+  }
+  finally
+  {
+    return response;
+  }
+}
+
+const changePassword = async (data) => {
+  let response;
+
+  try 
+  {
+    let url = axiosInstance.defaults.baseURL + '/password/reset';
     response = await axiosInstance.post(url, data);
     response = response.data;
   } 
@@ -97,7 +125,7 @@ const logout = async (token) => {
 
   try 
   {
-    let url = axiosInstance.defaults.baseURL + 'logout';
+    let url = axiosInstance.defaults.baseURL + '/logout';
     response = await axiosInstance.get(url, {
       headers: {
         Authorization: token
@@ -125,4 +153,4 @@ const logout = async (token) => {
 
 }
 
-export default {login, register, resetPassword, logout}
+export default {login, register, resetPassword, changePassword, logout}

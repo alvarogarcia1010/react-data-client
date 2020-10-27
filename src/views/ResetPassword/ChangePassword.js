@@ -25,12 +25,12 @@ const ChangePassword = props => {
   const {isSubmitting, touched} = formState;
   
   const onSubmit = async (data, e) => {
-    const response = await AuthManagement.resetPassword(data);
+    const response = await AuthManagement.changePassword(data);
 
     if(response.data)
     {
       fireToast(response.data.message)
-      e.target.reset()
+      props.history.push("/login");
     }
   };
 
