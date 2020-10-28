@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Col, Container, Row} from 'react-bootstrap'
 import {connect} from 'react-redux'
+import {confirmDeleteFireToast} from '../../services/helpers'
 import ArticleManagement from '../../services/ArticleManagement'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
@@ -12,10 +13,10 @@ class Articles extends Component {
 
   columns = [
     { title: 'Id', field: 'id', hidden:true},
-    { title: 'Sku', field: 'sku'},
+    { title: 'Sku', field: 'sku', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:80},
     { title: 'Nombre', field: 'name'},
-    { title: 'Cantidad', field: 'quantity'},
-    { title: 'Precio', field: 'price'},
+    { title: 'Cantidad', field: 'quantity', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:50},
+    { title: 'Precio', field: 'price', cellStyle:{textAlign:'right',padding:"8px", fontSize:"14px"}, width:50},
     { title: 'Descripción', field: 'remark'},
   ];
 
@@ -29,6 +30,22 @@ class Articles extends Component {
     })
   })
 
+  refreshTableAction = () => {
+    this.tableRef.current && this.tableRef.current.onQueryChange()
+  };
+
+  confirmDeleteAction = async (event, rowData) => {
+    confirmDeleteFireToast(async () => {
+      
+      const response = await ArticleManagement.deleteOne(rowData.id, this.props.token);
+
+      if(response.data)
+      {
+        this.refreshTableAction()
+      }
+    }, "El artículo se ha eliminado con exito.")
+  }
+
   render() {
     return (
       <>
@@ -36,14 +53,19 @@ class Articles extends Component {
         <Container fluid>
           <Row className="m-3">
             <Col md={4}>
-              <ArticleFom/>
+              <ArticleFom
+                token={this.props.token}
+                onRefreshTableClicked={this.refreshTableAction}
+              />
             </Col>
             <Col md={8}>
               <CustomTable 
                 columns={this.columns} 
                 data={this.data}
                 ref={this.tableRef}
-                onRefreshTableClicked={() => {}}
+                confirmDeleteAction={this.confirmDeleteAction}
+                onEditClickedAction={() => {}}
+                onRefreshTableClicked={this.refreshTableAction}
               />
             </Col>
           </Row>

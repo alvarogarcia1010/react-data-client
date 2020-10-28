@@ -1,34 +1,53 @@
 import React from 'react'
-import {Button, Card, Form, Col} from 'react-bootstrap'
-import {useForm} from "react-hook-form"
+import {Button, Card, Form, Col, InputGroup} from 'react-bootstrap'
+import NumberFormat from 'react-number-format'
+import {useForm, Controller} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
+import ArticleManagement from '../../services/ArticleManagement'
 import * as yup from "yup"
+import { fireToast, isEmpty } from '../../services/helpers'
 
 const schema = yup.object().shape({
   sku: yup.string(),
   name: yup.string().required("Campo obligatiorio"),
-  quantity: yup.number().integer().positive().required("Campo obligatiorio"),
-  price: yup.number().positive().required("Campo obligatiorio"),
+  quantity: yup.string().required("Campo obligatiorio"),
+  price: yup.string().required("Campo obligatiorio"),
   remark: yup.string(),
   image_url: yup.string(),
 });
 
 const ArticleFom = (props) => {
 
-  const {register, handleSubmit, errors, formState} = useForm({
+  const {register, handleSubmit, errors, formState, control, setValue} = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   });
   const {isSubmitting, touched} = formState;
   
-  const onSubmit = async data => {
+  const onSubmit = async (data, e) => {
+    data.quantity = parseInt(data.quantity.replace(',', ''))
+    data.price = parseFloat(data.price.replace(',', ''))
     console.log(data)
-    //const response = await AuthManagement.register(data);
 
-    // if(response.data)
-    // {
-    //   props.onAuthSuccess(response.data.data)
-    // }
+    let response, message;
+
+    if(isEmpty(data.id))
+    {
+      response = await ArticleManagement.create(data, props.token);
+      message = "El artículo se ha guardado con exito.";
+    }
+    else
+    {
+      response = await ArticleManagement.update(data, props.token);
+      message = "El artículo se ha actualizado con exito.";
+    }
+
+    if(response.data)
+    {
+      fireToast(message)
+      props.onRefreshTableClicked()
+      e.target.reset()
+    }
   };
 
   return (
@@ -40,7 +59,12 @@ const ArticleFom = (props) => {
               <Button variant="primary" type="submit">Guardar</Button>
             </div>
           </Card.Title>
-
+          <Form.Control 
+            type="hidden" 
+            name="id"
+            disabled={isSubmitting}
+            ref={register}
+          />
           <Form.Group controlId="sku" className="mb-2">
             <Form.Label>Sku</Form.Label>
             <Form.Control 
@@ -71,16 +95,21 @@ const ArticleFom = (props) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Row>
+          <Form.Row className="mb-0">
             <Form.Group as={Col} controlId="quantity" className="mb-2">
               <Form.Label required>Cantidad</Form.Label>
-              <Form.Control 
-                type="text" 
-                name="quantity" 
-                isValid={touched.quantity && !errors.quantity}
-                isInvalid={!!errors.quantity}
-                disabled={isSubmitting}
-                ref={register}
+              <Controller
+                name="quantity"
+                control={control}
+                as={
+                  <NumberFormat 
+                    thousandSeparator={true}
+                    decimalScale={0}
+                    isValid={touched.quantity && !errors.quantity}
+                    isInvalid={!!errors.quantity}
+                    disabled={isSubmitting}
+                    customInput={Form.Control}
+                  />}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.quantity && errors.quantity.message}
@@ -88,17 +117,28 @@ const ArticleFom = (props) => {
             </Form.Group>
             <Form.Group as={Col} controlId="price" className="mb-2">
               <Form.Label required>Precio</Form.Label>
-              <Form.Control 
-                type="text" 
-                name="price" 
-                isValid={touched.price && !errors.price}
-                isInvalid={!!errors.price}
-                disabled={isSubmitting}
-                ref={register}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.price && errors.price.message}
-              </Form.Control.Feedback>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Controller
+                  name="price"
+                  control={control}
+                  as={
+                    <NumberFormat 
+                      thousandSeparator={true}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      isValid={touched.price && !errors.price}
+                      isInvalid={!!errors.price}
+                      disabled={isSubmitting}
+                      customInput={Form.Control}
+                    />}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.price && errors.price.message}
+                </Form.Control.Feedback>
+              </InputGroup>
             </Form.Group>
           </Form.Row>
 

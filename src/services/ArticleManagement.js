@@ -1,5 +1,5 @@
 import axiosInstance from '../AxiosInstance'
-import {fireMessage, fireErrorMessage, isEmpty} from './helpers'
+import {fireMessage, fireErrorMessage, isEmpty, onErrorHandler} from './helpers'
 
 export const getArticles = async (query, token) => {
   let articlesData = {
@@ -46,14 +46,7 @@ export const getArticles = async (query, token) => {
   }
   catch (error)
   {
-    if(error.response.status === 401)
-    {
-      fireMessage("Acceso no autorizado", "Favor inicie sesión");
-    }
-    else
-    {
-      fireErrorMessage();
-    }
+    onErrorHandler(error.response)
   }
   finally
   {
@@ -61,4 +54,80 @@ export const getArticles = async (query, token) => {
   }
 }
 
-export default {getArticles};
+export const create = async (data, token) => {
+  let response;
+  try 
+  {
+    let url = axiosInstance.defaults.baseURL + '/articles';
+
+    response = await axiosInstance.post(url, data, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    response = response.data;
+  }
+  catch (error)
+  {
+    response = error.response.data;
+    onErrorHandler(error.response)
+  }
+  finally
+  {
+    return response;
+  }
+}
+
+export const update = async (data, token) => {
+  let response;
+  try 
+  {
+    let url = axiosInstance.defaults.baseURL + `/articles/${data.id}`;
+    data.id = undefined;
+
+    response = await axiosInstance.put(url, data, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    response = response.data;
+  }
+  catch (error)
+  {
+    response = error.response.data;
+    onErrorHandler(error.response)
+  }
+  finally
+  {
+    return response;
+  }
+}
+
+export const deleteOne = async (id, token) => {
+  let response;
+  try 
+  {
+    let url = axiosInstance.defaults.baseURL + `/articles/${id}`;
+    console.log(token);
+    response = await axiosInstance.delete(url, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    response = response.data;
+  }
+  catch (error)
+  {
+    response = error.response.data;
+    onErrorHandler(error.response)
+  }
+  finally
+  {
+    return response;
+  }
+}
+
+export default {getArticles, create, update, deleteOne};

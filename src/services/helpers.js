@@ -16,6 +16,31 @@ export const removeEmptyKey = obj => {
   Object.keys(obj).forEach(key => obj[key] == null && delete obj[key]);
 };
 
+export const onErrorHandler = (error) => {
+
+  switch (error.status) {
+    case 422:
+      let details = '<ul>';
+      
+      error.data.errors.forEach(error => {
+        details += `<li>${error.title}</li>`; 
+      });
+
+      details += '</ul>';
+      fireMessage("Información", details, 'info', true);
+      break;
+    case 404:
+      fireMessage(error.data.errors.title, error.data.errors.detail);
+      break;
+    case 401:
+      fireMessage("Acceso no autorizado", "Favor inicie sesión");
+      break;
+    default:
+      fireErrorMessage();
+      break;
+  }
+}
+
 export const fireErrorMessage = () => {
   const MySwal = withReactContent(Swal)
   MySwal.fire({
@@ -64,7 +89,7 @@ export const fireToast = (title = '', icon = 'success', properties = {}) => {
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
-      onOpen: (toast) => {
+      didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
         toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
@@ -77,3 +102,33 @@ export const fireToast = (title = '', icon = 'success', properties = {}) => {
     title: title
   })
 }
+
+export const confirmDeleteFireToast = (confirmCallback, message, properties = {}) => {
+  const MySwal = withReactContent(Swal)
+
+  MySwal.fire({
+    title: '¿Esta seguro?',
+    text: "Usted eliminará este registro permanentemente.",
+    icon: 'warning',
+    width: "30rem",
+    customClass:
+    {
+      cancelButton: 'custom-btn-padding',
+      confirmButton: 'custom-btn-padding',
+      title: 'font-size-small',
+      content: 'font-size-small-content',
+    },
+    showCancelButton: true,
+    showLoaderOnConfirm: true,
+    confirmButtonColor: '#dc3545',
+    cancelButtonColor: '#8F8C8C',
+    cancelButtonText: "Cancelar",
+    confirmButtonText: 'Eliminar',
+    preConfirm: () => {return confirmCallback()}
+  }).then((result) => {
+    if (result.value) {
+      fireToast(message);
+    }
+  })
+}
+

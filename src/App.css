@@ -47,3 +47,8 @@ label[required]:after {
 .font-size-small-content {
   font-size: 16px!important;
 } 
+
+.MuiIconButton-label{
+  color:#007bff;
+}
+
