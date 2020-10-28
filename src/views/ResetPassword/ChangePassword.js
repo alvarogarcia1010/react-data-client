@@ -6,7 +6,6 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import {fireToast} from '../../services/helpers'
 import AuthManagement from '../../services/AuthManagement'
 import * as yup from "yup"
-import * as action from '../../store/actions/index'
 import {connect} from 'react-redux'
 
 const schema = yup.object().shape({

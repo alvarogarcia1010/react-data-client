@@ -1,7 +1,7 @@
 import axiosInstance from '../AxiosInstance'
 import {fireMessage, fireErrorMessage} from './helpers'
 
-const login = async (data) => {
+export const login = async (data) => {
   let response;
 
   try 
@@ -29,7 +29,7 @@ const login = async (data) => {
   }
 }
 
-const register = async (data) => {
+export const register = async (data) => {
   let response;
 
   try 
@@ -64,7 +64,7 @@ const register = async (data) => {
   }
 }
 
-const resetPassword = async (data) => {
+export const resetPassword = async (data) => {
   let response;
 
   try 
@@ -92,7 +92,7 @@ const resetPassword = async (data) => {
   }
 }
 
-const changePassword = async (data) => {
+export const changePassword = async (data) => {
   let response;
 
   try 
@@ -120,7 +120,7 @@ const changePassword = async (data) => {
   }
 }
 
-const logout = async (token) => {
+export const logout = async (token) => {
   let response;
 
   try 
