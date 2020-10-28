@@ -67,7 +67,6 @@ const ArticleFom = (props) => {
   useEffect(() => {
     if(!isEmpty(props.article.id))
     {
-      console.log("hola")
       reset(
       {...props.article}, 
       {

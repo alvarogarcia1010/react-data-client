@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import {Card, Button, Form} from 'react-bootstrap'
 import NumberFormat from 'react-number-format';
-import {useForm} from "react-hook-form"
+import {useForm, Controller} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
 import AuthManagement from '../../services/AuthManagement'
 import * as yup from "yup"
@@ -19,7 +19,7 @@ const schema = yup.object().shape({
 });
 
 const Register = props => {
-  const {register, handleSubmit, errors, formState} = useForm({
+  const {register, handleSubmit, errors, formState, control} = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   });
@@ -127,16 +127,20 @@ const Register = props => {
 
             <Form.Group controlId="phone_number">
               <Form.Label>Teléfono</Form.Label>
-              <NumberFormat
+              <Controller
                 name="phone_number"
-                format="####-####" 
-                mask="_"
-                placeholder="7777-7777"
-                isValid={touched.phone_number && !errors.phone_number}
-                isInvalid={!!errors.phone_number}
-                disabled={isSubmitting}
-                ref={register}
-                customInput={Form.Control}
+                control={control}
+                as={
+                  <NumberFormat
+                    name="phone_number"
+                    format="####-####" 
+                    mask="_"
+                    placeholder="7777-7777"
+                    isValid={touched.phone_number && !errors.phone_number}
+                    isInvalid={!!errors.phone_number}
+                    disabled={isSubmitting}
+                    customInput={Form.Control}
+                  />}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.phone_number && errors.phone_number.message}
