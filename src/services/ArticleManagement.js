@@ -110,7 +110,7 @@ export const deleteOne = async (id, token) => {
   try 
   {
     let url = axiosInstance.defaults.baseURL + `/articles/${id}`;
-    console.log(token);
+
     response = await axiosInstance.delete(url, {
       headers: {
         Authorization: token

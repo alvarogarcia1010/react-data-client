@@ -1,13 +1,28 @@
 import React, { Component } from 'react'
 import {Col, Container, Row} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {confirmDeleteFireToast} from '../../services/helpers'
+import {confirmDeleteFireToast, updateObject} from '../../services/helpers'
 import ArticleManagement from '../../services/ArticleManagement'
 import CustomTable from '../../components/CustomTable'
 import Header from '../../components/Header'
 import ArticleFom from './ArticleFom'
 
+
+const initialSelectedArticle = {
+  id:"",
+  sku: "",
+  name: "",
+  quantity: "",
+  price: "",
+  remark: "",
+  image_url: ""
+}
+
 class Articles extends Component {
+
+  state = {
+    article: {...initialSelectedArticle}
+  };
 
   tableRef = React.createRef();
 
@@ -34,6 +49,18 @@ class Articles extends Component {
     this.tableRef.current && this.tableRef.current.onQueryChange()
   };
 
+  editStatusAction = (event, rowData) => {
+    event.stopPropagation();
+    let article = updateObject(initialSelectedArticle, {...rowData})
+    delete article.tableData;
+    
+    this.setState({article: article})
+  }
+
+  cleanState = () => {
+    this.setState({article: initialSelectedArticle});
+  }
+
   confirmDeleteAction = async (event, rowData) => {
     confirmDeleteFireToast(async () => {
       
@@ -55,7 +82,9 @@ class Articles extends Component {
             <Col md={4}>
               <ArticleFom
                 token={this.props.token}
+                article={this.state.article}
                 onRefreshTableClicked={this.refreshTableAction}
+                cleanState={this.cleanState}
               />
             </Col>
             <Col md={8}>
@@ -64,7 +93,7 @@ class Articles extends Component {
                 data={this.data}
                 ref={this.tableRef}
                 confirmDeleteAction={this.confirmDeleteAction}
-                onEditClickedAction={() => {}}
+                onEditClickedAction={this.editStatusAction}
                 onRefreshTableClicked={this.refreshTableAction}
               />
             </Col>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Button, Card, Form, Col, InputGroup} from 'react-bootstrap'
 import NumberFormat from 'react-number-format'
 import {useForm, Controller} from "react-hook-form"
@@ -18,8 +18,9 @@ const schema = yup.object().shape({
 
 const ArticleFom = (props) => {
 
-  const {register, handleSubmit, errors, formState, control, setValue} = useForm({
+  const {register, handleSubmit, errors, formState, control, setValue, reset} = useForm({
     mode: 'onBlur',
+    defaultValues: props.article,
     resolver: yupResolver(schema)
   });
   const {isSubmitting, touched} = formState;
@@ -27,7 +28,6 @@ const ArticleFom = (props) => {
   const onSubmit = async (data, e) => {
     data.quantity = parseInt(data.quantity.replace(',', ''))
     data.price = parseFloat(data.price.replace(',', ''))
-    console.log(data)
 
     let response, message;
 
@@ -46,9 +46,42 @@ const ArticleFom = (props) => {
     {
       fireToast(message)
       props.onRefreshTableClicked()
-      e.target.reset()
+      props.cleanState()
+      reset(
+      {
+        quantity: "",
+        price: ""
+      }, 
+      {
+        errors: false,
+        dirtyFields: false,
+        isDirty: false,
+        isSubmitted: false,
+        touched: false,
+        isValid: false,
+        submitCount: false,
+      });
     }
   };
+
+  useEffect(() => {
+    if(!isEmpty(props.article.id))
+    {
+      console.log("hola")
+      reset(
+      {...props.article}, 
+      {
+        errors: false,
+        dirtyFields: false,
+        isDirty: false,
+        isSubmitted: false,
+        touched: false,
+        isValid: false,
+        submitCount: false,
+      });
+    }
+  }, [props.article]);
+  
 
   return (
     <Card>
