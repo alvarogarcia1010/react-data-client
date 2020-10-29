@@ -17,7 +17,9 @@ class Logout extends Component
   render() 
   {
     return (
-      <Redirect to="/" />
+      <>
+       <p>Cerrando sesión</p>
+      </>
     )
   }
 }

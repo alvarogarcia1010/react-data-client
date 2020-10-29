@@ -180,12 +180,25 @@ const ArticleFom = (props) => {
               </InputGroup>
             </Form.Group>
           </Form.Row>
-
-
+          <Form.Group controlId="image_url" className="mb-2">
+            <Form.Label>URL de imagen</Form.Label>
+            <Form.Control 
+              type="text" 
+              name="image_url"
+              isValid={touched.image_url && !errors.image_url}
+              isInvalid={!!errors.image_url}
+              disabled={isSubmitting}
+              ref={register}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.image_url && errors.image_url.message}
+            </Form.Control.Feedback>
+          </Form.Group>
           <Form.Group controlId="remark" className="mb-2">
             <Form.Label>Descripción</Form.Label>
             <Form.Control 
-              type="text" 
+              as="textarea" 
+              rows={4} 
               name="remark" 
               isValid={touched.remark && !errors.remark}
               isInvalid={!!errors.remark}
@@ -194,20 +207,6 @@ const ArticleFom = (props) => {
             />
             <Form.Control.Feedback type="invalid">
               {errors.remark && errors.remark.message}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="image_url" className="mb-2">
-            <Form.Label>URL de imagen</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="image_url" 
-              isValid={touched.image_url && !errors.image_url}
-              isInvalid={!!errors.image_url}
-              disabled={isSubmitting}
-              ref={register}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.image_url && errors.image_url.message}
             </Form.Control.Feedback>
           </Form.Group>
         </Form>

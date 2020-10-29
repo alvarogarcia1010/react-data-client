@@ -29,10 +29,11 @@ class Articles extends Component {
   columns = [
     { field: 'id', hidden:true},
     { field: 'price', hidden:true},
+    { title: "Imagen", field: "image_url", width:60, render: rowData => <img src={rowData.image_url} style={{width: 100}} alt=""/> },
     { title: 'Sku', field: 'sku', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:80},
     { title: 'Nombre', field: 'name'},
-    { title: 'Cantidad', field: 'quantity', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:50},
-    { title: 'Precio', field: 'price_label', cellStyle:{textAlign:'right',padding:"8px", fontSize:"14px"}, width:50},
+    { title: 'Cantidad', field: 'quantity', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:35},
+    { title: 'Precio', field: 'price_label', cellStyle:{textAlign:'right',padding:"8px", fontSize:"14px"}, width:55},
     { title: 'Descripción', field: 'remark'},
   ];
 
