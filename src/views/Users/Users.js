@@ -26,12 +26,13 @@ class Users extends Component {
   tableRef = React.createRef();
 
   columns = [
-    { title: 'Id', field: 'id', hidden:true},
+    { field: 'id', hidden:true},
+    { field: 'birth_date', hidden:true},
     { title: 'Nombre', field: 'name'},
     { title: 'Usuario', field: 'username', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}},
     { title: 'Correo eléctronico', field: 'email'},
     { title: 'Teléfono', field: 'phone_number', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:75},
-    { title: 'Fecha de nacimiento', field: 'birth_date', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:75},
+    { title: 'Fecha de nacimiento', field: 'birth_date_with_format', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:75},
   ];
 
   data = query => new Promise(async (resolve, reject) => {
@@ -52,6 +53,7 @@ class Users extends Component {
     event.stopPropagation();
     let user = updateObject(initialSelectedUser, {...rowData})
     delete user.tableData;
+    delete user.birth_date_with_format;
     
     this.setState({user: user})
   }

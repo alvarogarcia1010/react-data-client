@@ -26,7 +26,7 @@ const UserForm = (props) => {
   
   const onSubmit = async (data, e) => {
     let response, message;
-    
+
     if(isEmpty(data.id))
     {
       response = await UserManagement.create(data, props.token);
@@ -76,7 +76,6 @@ const UserForm = (props) => {
     }
   }, [props.user]);
   
-
   return (
     <Card>
       <Card.Body>

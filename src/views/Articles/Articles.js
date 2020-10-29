@@ -27,11 +27,12 @@ class Articles extends Component {
   tableRef = React.createRef();
 
   columns = [
-    { title: 'Id', field: 'id', hidden:true},
+    { field: 'id', hidden:true},
+    { field: 'price', hidden:true},
     { title: 'Sku', field: 'sku', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:80},
     { title: 'Nombre', field: 'name'},
     { title: 'Cantidad', field: 'quantity', cellStyle:{textAlign:'center',padding:"8px", fontSize:"14px"}, width:50},
-    { title: 'Precio', field: 'price', cellStyle:{textAlign:'right',padding:"8px", fontSize:"14px"}, width:50},
+    { title: 'Precio', field: 'price_label', cellStyle:{textAlign:'right',padding:"8px", fontSize:"14px"}, width:50},
     { title: 'Descripción', field: 'remark'},
   ];
 
@@ -53,6 +54,7 @@ class Articles extends Component {
     event.stopPropagation();
     let article = updateObject(initialSelectedArticle, {...rowData})
     delete article.tableData;
+    delete article.price_label;
     
     this.setState({article: article})
   }

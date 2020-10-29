@@ -26,7 +26,6 @@ const Register = props => {
   const {isSubmitting, touched} = formState;
   
   const onSubmit = async data => {
-    console.log(data)
     const response = await AuthManagement.register(data);
 
     if(response.data)

@@ -35,8 +35,6 @@ export const auth = (authData) => {
       expires_at: authData.expires_at
     }
 
-    console.log(user)
-
     localStorage.setItem('appState', JSON.stringify(user));
 
     dispatch(authSuccess(user));

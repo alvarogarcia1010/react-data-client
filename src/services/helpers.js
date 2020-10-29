@@ -33,7 +33,7 @@ export const onErrorHandler = (error) => {
       fireMessage(error.data.errors.title, error.data.errors.detail);
       break;
     case 401:
-      fireMessage("Acceso no autorizado", "Favor inicie sesión");
+      fireMessage(error.data.errors.title, error.data.errors.detail);
       break;
     default:
       fireErrorMessage();
