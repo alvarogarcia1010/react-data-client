@@ -49,6 +49,10 @@ class Users extends Component {
     this.tableRef.current && this.tableRef.current.onQueryChange()
   };
 
+  searchUser = (search) => {
+    this.tableRef.current && this.tableRef.current.onQueryChange({search: search})
+  }
+
   editStatusAction = (event, rowData) => {
     event.stopPropagation();
     let user = updateObject(initialSelectedUser, {...rowData})
@@ -77,7 +81,11 @@ class Users extends Component {
   render() {
     return (
       <>
-        <Header name={this.props.name}/>
+        <Header 
+          name={this.props.name} 
+          placeholder={"Buscar usuario"}
+          onSearch={this.searchUser}
+        />
         <Container fluid>
           <Row className="m-3">
             <Col md={4}>
@@ -90,6 +98,7 @@ class Users extends Component {
             </Col>
             <Col md={8}>
               <CustomTable 
+                title="Usuarios"
                 columns={this.columns} 
                 data={this.data}
                 ref={this.tableRef}

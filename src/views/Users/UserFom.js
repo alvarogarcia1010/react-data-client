@@ -92,7 +92,8 @@ const UserForm = (props) => {
     <Card>
       <Card.Body>
         <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-          <Card.Title>Formulario
+          <Card.Title>
+            {isEmpty(watch('id'))? "Agregar usuario" : "Editar usuario"}
             <div className="float-right">
               <Button variant="success" className="mr-1" onClick={cleanData}>Nuevo</Button>
               <Button variant="primary" type="submit">Guardar</Button>

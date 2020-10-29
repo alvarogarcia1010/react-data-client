@@ -18,7 +18,7 @@ const schema = yup.object().shape({
 
 const ArticleFom = (props) => {
 
-  const {register, handleSubmit, errors, formState, control, reset} = useForm({
+  const {register, handleSubmit, errors, formState, control, reset, watch} = useForm({
     mode: 'onBlur',
     defaultValues: props.article,
     resolver: yupResolver(schema)
@@ -91,7 +91,8 @@ const ArticleFom = (props) => {
     <Card>
       <Card.Body>
         <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-          <Card.Title>Nuevo artículo
+          <Card.Title>
+            {isEmpty(watch('id'))? "Agregar artículo" : "Editar artículo"}
             <div className="float-right">
               <Button variant="success" className="mr-1" onClick={cleanData}>Nuevo</Button>
               <Button variant="primary" type="submit">Guardar</Button>

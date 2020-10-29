@@ -1,6 +1,7 @@
 import React from 'react'
 import {Navbar, Nav} from 'react-bootstrap';
 import {LinkContainer} from "react-router-bootstrap"
+import SearchInput from './SearchInput';
 
 const Header = props => {
   return (
@@ -16,8 +17,10 @@ const Header = props => {
             <LinkContainer exact to="/usuarios">
               <Nav.Link>Usuarios</Nav.Link>
             </LinkContainer>
+            
           </Nav>
           <Nav className="ml-auto mr-4">
+            {props.onSearch? <SearchInput onSearch={props.onSearch} placeholder={props.placeholder}/> : null}
             <Navbar.Text className="text-white font-weight-bold">{props.name}</Navbar.Text>
             <LinkContainer exact to="/logout">
               <Nav.Link>Salir</Nav.Link>

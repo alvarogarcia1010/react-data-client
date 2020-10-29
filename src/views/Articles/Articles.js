@@ -50,6 +50,10 @@ class Articles extends Component {
     this.tableRef.current && this.tableRef.current.onQueryChange()
   };
 
+  searchArticle = (search) => {
+    this.tableRef.current && this.tableRef.current.onQueryChange({search: search})
+  }
+
   editStatusAction = (event, rowData) => {
     event.stopPropagation();
     let article = updateObject(initialSelectedArticle, {...rowData})
@@ -78,7 +82,11 @@ class Articles extends Component {
   render() {
     return (
       <>
-        <Header name={this.props.name}/>
+        <Header 
+          name={this.props.name} 
+          placeholder={"Buscar artículo"}
+          onSearch={this.searchArticle}
+        />
         <Container fluid>
           <Row className="m-3">
             <Col md={4}>
@@ -91,6 +99,7 @@ class Articles extends Component {
             </Col>
             <Col md={8}>
               <CustomTable 
+                title="Artículos"
                 columns={this.columns} 
                 data={this.data}
                 ref={this.tableRef}

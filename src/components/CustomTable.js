@@ -49,7 +49,7 @@ const CustomTable = forwardRef((props, ref) => {
       <MaterialTable
         columns={props.columns}
         data={props.data}
-        title=""
+        title={props.title}
         tableRef={ref}
         actions={actions}
         onRowClick={onRowClick}
