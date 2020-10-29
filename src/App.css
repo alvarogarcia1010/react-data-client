@@ -52,6 +52,13 @@ label[required]:after {
   color:#007bff;
 }
 
+.spinner-lg {
+  width: 4rem; height: 4rem;
+}
+
+.text-20 {
+  font-size: 20px;
+}
 
 @media only screen and (max-width: 600px) {
   .MuiTypography-caption{

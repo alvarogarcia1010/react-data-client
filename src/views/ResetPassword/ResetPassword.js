@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import {Card, Button, Form} from 'react-bootstrap'
+import {Card, Button, Form, Spinner} from 'react-bootstrap'
 import {useForm} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
 import {fireToast} from '../../services/helpers'
@@ -66,7 +66,20 @@ const ResetPassword = props => {
             </div>
 
             <div className="d-flex justify-content-end">
-              <Button variant="primary" type="submit">Reestablecer</Button>
+              {isSubmitting?
+                <Button variant="primary" disabled={isSubmitting}>
+                  <Spinner 
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  {' Cargando...'}
+                </Button>
+                :
+                <Button variant="primary" type="submit">Reestablecer</Button>
+              } 
             </div>
           </Form>
           </Card.Body>

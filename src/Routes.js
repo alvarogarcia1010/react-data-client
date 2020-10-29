@@ -15,7 +15,7 @@ const Routes = props => {
       <Route exact path="/login" component={Login}/>
       <Route exact path="/registrarme" component={Register}/>
       <Route exact path="/recuperar-clave" component={ResetPassword}/>
-      <Route exact path="/password/reset/:token" component={ChangePassword}/>
+      <Route exact path="/cambiar-clave/:token" component={ChangePassword}/>
       <PrivateRoute path='/productos' component={Articles}/>
       <PrivateRoute path='/usuarios' component={Users}/>
       <PrivateRoute path='/logout' component={Logout}/>

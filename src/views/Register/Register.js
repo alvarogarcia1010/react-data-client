@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import {Card, Button, Form} from 'react-bootstrap'
+import {Card, Button, Form, Spinner} from 'react-bootstrap'
 import NumberFormat from 'react-number-format';
 import {useForm, Controller} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -43,7 +43,7 @@ const Register = props => {
   return (
     <div className="card-container">
       {authRedirect}
-      <Card className="custom-card">
+      <Card className="custom-card my-4">
         <Card.Body>
           <Card.Title className="text-center">Registrarme</Card.Title>
           <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -153,7 +153,20 @@ const Register = props => {
             </div>
 
             <div className="d-flex justify-content-end">
-              <Button variant="primary" type="submit">Crear cuenta</Button>
+              {isSubmitting?
+                <Button variant="primary" disabled={isSubmitting}>
+                  <Spinner 
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  {' Cargando...'}
+                </Button>
+                :
+                <Button variant="primary" type="submit">Siguiente</Button>
+              }
             </div>
           </Form>
           </Card.Body>

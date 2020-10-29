@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Button, Card, Form} from 'react-bootstrap'
+import {Button, Card, Form, Spinner} from 'react-bootstrap'
 import NumberFormat from 'react-number-format'
 import {useForm, Controller} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -96,7 +96,20 @@ const UserForm = (props) => {
             {isEmpty(watch('id'))? "Agregar usuario" : "Editar usuario"}
             <div className="float-md-right mt-2 mt-md-0">
               <Button variant="success" className="mr-1" onClick={cleanData}>Nuevo</Button>
+              {isSubmitting?
+              <Button variant="primary" disabled={isSubmitting}>
+                <Spinner 
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                {' Cargando...'}
+              </Button>
+              :
               <Button variant="primary" type="submit">Guardar</Button>
+              }
             </div>
           </Card.Title>
           <Form.Control 
