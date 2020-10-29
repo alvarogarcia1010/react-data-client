@@ -25,39 +25,38 @@ const UserForm = (props) => {
   const {isSubmitting, touched} = formState;
   
   const onSubmit = async (data, e) => {
-
     let response, message;
-    console.log(data)
-    // if(isEmpty(data.id))
-    // {
-    //   response = await UserManagement.create(data, props.token);
-    //   message = "El usuario se ha guardado con exito.";
-    // }
-    // else
-    // {
-    //   response = await UserManagement.update(data, props.token);
-    //   message = "El usuario se ha actualizado con exito.";
-    // }
+    
+    if(isEmpty(data.id))
+    {
+      response = await UserManagement.create(data, props.token);
+      message = "El usuario se ha guardado con exito.";
+    }
+    else
+    {
+      response = await UserManagement.update(data, props.token);
+      message = "El usuario se ha actualizado con exito.";
+    }
 
-    // if(response.data)
-    // {
-    //   fireToast(message)
-    //   props.onRefreshTableClicked()
-    //   props.cleanState()
-    //   reset(
-    //   {
-    //     phone_number: ""
-    //   }, 
-    //   {
-    //     errors: false,
-    //     dirtyFields: false,
-    //     isDirty: false,
-    //     isSubmitted: false,
-    //     touched: false,
-    //     isValid: false,
-    //     submitCount: false,
-    //   });
-    // }
+    if(response.data)
+    {
+      fireToast(message)
+      props.onRefreshTableClicked()
+      props.cleanState()
+      reset(
+      {
+        phone_number: ""
+      }, 
+      {
+        errors: false,
+        dirtyFields: false,
+        isDirty: false,
+        isSubmitted: false,
+        touched: false,
+        isValid: false,
+        submitCount: false,
+      });
+    }
   };
 
   useEffect(() => {
@@ -173,6 +172,7 @@ const UserForm = (props) => {
               <Form.Label>Teléfono</Form.Label>
               <Controller
                 name="phone_number"
+                defaultValue=""
                 control={control}
                 as={
                   <NumberFormat

@@ -18,7 +18,7 @@ const schema = yup.object().shape({
 
 const ArticleFom = (props) => {
 
-  const {register, handleSubmit, errors, formState, control, setValue, reset} = useForm({
+  const {register, handleSubmit, errors, formState, control, reset} = useForm({
     mode: 'onBlur',
     defaultValues: props.article,
     resolver: yupResolver(schema)

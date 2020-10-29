@@ -8,14 +8,8 @@ const CustomTable = forwardRef((props, ref) => {
   const exportDefault = props.exportDefault===false? props.exportDefault : true;
 
   let onRowClick = null;
-  let tableOverview = null;
 
   let actions = [];
-
-  if(props.tableOverview)
-  {
-    tableOverview = props.tableOverview;
-  }
 
   if(props.onRowClicked)
   {

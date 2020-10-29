@@ -1,5 +1,5 @@
 import axiosInstance from '../AxiosInstance'
-import {fireMessage, fireErrorMessage, isEmpty, onErrorHandler} from './helpers'
+import {isEmpty, onErrorHandler} from './helpers'
 
 export const getUsers = async (query, token) => {
   let usersData = {
