@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
+import {Navbar, Nav} from 'react-bootstrap';
 import {LinkContainer} from "react-router-bootstrap"
 
 const Header = props => {
@@ -9,18 +9,19 @@ const Header = props => {
         <Navbar.Brand className="ml-4">Alvaro's data client</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto mr-4">
+          <Nav className="mr-auto">
             <LinkContainer exact to="/productos">
               <Nav.Link>Productos</Nav.Link>
             </LinkContainer>
             <LinkContainer exact to="/usuarios">
               <Nav.Link>Usuarios</Nav.Link>
             </LinkContainer>
-            <NavDropdown title={props.name} alignRight id="basic-nav-dropdown">
-              <LinkContainer exact to="/logout">
-                <NavDropdown.Item>Cerrar sesión</NavDropdown.Item>
-              </LinkContainer>
-            </NavDropdown> 
+          </Nav>
+          <Nav className="ml-auto mr-4">
+            <Navbar.Text className="text-white font-weight-bold">{props.name}</Navbar.Text>
+            <LinkContainer exact to="/logout">
+              <Nav.Link>Salir</Nav.Link>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

@@ -10,14 +10,15 @@ import { fireToast, isEmpty } from '../../services/helpers'
 const schema = yup.object().shape({
   name: yup.string().required("Campo obligatiorio"),
   username : yup.string().required("Campo obligatiorio"),
+  password: yup.string().nullable(),
   birth_date: yup.string(),
-  phone_number: yup.string(),
+  phone_number: yup.string().nullable(),
   email: yup.string().email("Correo electronico no valido").required("Campo obligatorio"),  
 });
 
 const UserForm = (props) => {
 
-  const {register, handleSubmit, errors, formState, control, setValue, reset} = useForm({
+  const {register, handleSubmit, errors, formState, control, setError, reset, watch} = useForm({
     mode: 'onBlur',
     defaultValues: props.article,
     resolver: yupResolver(schema)
@@ -29,6 +30,12 @@ const UserForm = (props) => {
 
     if(isEmpty(data.id))
     {
+      if(isEmpty(data.password))
+      {
+        setError('password', {message:"Campo obligatorio"})
+        return;
+      }
+
       response = await UserManagement.create(data, props.token);
       message = "El usuario se ha guardado con exito.";
     }
@@ -42,22 +49,27 @@ const UserForm = (props) => {
     {
       fireToast(message)
       props.onRefreshTableClicked()
-      props.cleanState()
-      reset(
-      {
-        phone_number: ""
-      }, 
-      {
-        errors: false,
-        dirtyFields: false,
-        isDirty: false,
-        isSubmitted: false,
-        touched: false,
-        isValid: false,
-        submitCount: false,
-      });
+      cleanData()
     }
   };
+
+  const cleanData = () => {
+    props.cleanState()
+    reset(
+    {
+      id: "",
+      phone_number: ""
+    }, 
+    {
+      errors: false,
+      dirtyFields: false,
+      isDirty: false,
+      isSubmitted: false,
+      touched: false,
+      isValid: false,
+      submitCount: false,
+    });
+  }
 
   useEffect(() => {
     if(!isEmpty(props.user.id))
@@ -80,8 +92,9 @@ const UserForm = (props) => {
     <Card>
       <Card.Body>
         <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-          <Card.Title>Nuevo usuario
+          <Card.Title>Formulario
             <div className="float-right">
+              <Button variant="success" className="mr-1" onClick={cleanData}>Nuevo</Button>
               <Button variant="primary" type="submit">Guardar</Button>
             </div>
           </Card.Title>
@@ -137,7 +150,7 @@ const UserForm = (props) => {
             </Form.Group>
 
             <Form.Group controlId="password" className="mb-2">
-              <Form.Label required>Contraseña</Form.Label>
+              <Form.Label required={isEmpty(watch("id"))}>Contraseña</Form.Label>
               <Form.Control 
                 type="password" 
                 name="password" 

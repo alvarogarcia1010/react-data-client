@@ -86,6 +86,11 @@ export const update = async (data, token) => {
     let url = axiosInstance.defaults.baseURL + `/users/${data.id}`;
     data.id = undefined;
 
+    if(isEmpty(data.password))
+    {
+      data.password = undefined;
+    }
+
     response = await axiosInstance.put(url, data, {
       headers: {
         Authorization: token

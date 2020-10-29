@@ -46,23 +46,28 @@ const ArticleFom = (props) => {
     {
       fireToast(message)
       props.onRefreshTableClicked()
-      props.cleanState()
-      reset(
-      {
-        quantity: "",
-        price: ""
-      }, 
-      {
-        errors: false,
-        dirtyFields: false,
-        isDirty: false,
-        isSubmitted: false,
-        touched: false,
-        isValid: false,
-        submitCount: false,
-      });
+      cleanData()
     }
   };
+
+  const cleanData = () => {
+    props.cleanState()
+    reset(
+    {
+      id: "",
+      quantity: "",
+      price: ""
+    }, 
+    {
+      errors: false,
+      dirtyFields: false,
+      isDirty: false,
+      isSubmitted: false,
+      touched: false,
+      isValid: false,
+      submitCount: false,
+    });
+  }
 
   useEffect(() => {
     if(!isEmpty(props.article.id))
@@ -88,6 +93,7 @@ const ArticleFom = (props) => {
         <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <Card.Title>Nuevo artículo
             <div className="float-right">
+              <Button variant="success" className="mr-1" onClick={cleanData}>Nuevo</Button>
               <Button variant="primary" type="submit">Guardar</Button>
             </div>
           </Card.Title>
