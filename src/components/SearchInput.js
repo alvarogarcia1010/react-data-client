@@ -30,7 +30,7 @@ const SearchInput = (props) => {
         placeholder={props.placeholder}
         className="mr-sm-2" 
       />
-      <Button variant="outline-light" onClick={onSearch}>Buscar</Button>
+      <Button variant="outline-light" className="d-none d-sm-block" onClick={onSearch}>Buscar</Button>
     </Form>
   )
 }

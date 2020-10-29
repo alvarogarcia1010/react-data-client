@@ -89,8 +89,8 @@ class Articles extends Component {
           onSearch={this.searchArticle}
         />
         <Container fluid>
-          <Row className="m-3">
-            <Col md={4}>
+          <Row className="my-3 mx-0">
+            <Col lg={4} className="mb-4">
               <ArticleFom
                 token={this.props.token}
                 article={this.state.article}
@@ -98,7 +98,7 @@ class Articles extends Component {
                 cleanState={this.cleanState}
               />
             </Col>
-            <Col md={8}>
+            <Col lg={8}>
               <CustomTable 
                 title="Artículos"
                 columns={this.columns} 

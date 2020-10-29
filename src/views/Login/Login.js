@@ -7,7 +7,6 @@ import AuthManagement from '../../services/AuthManagement'
 import * as yup from "yup"
 import * as action from '../../store/actions/index'
 import {connect} from 'react-redux'
-import classes from './Login.module.css'
 
 const schema = yup.object().shape({
   email: yup.string().email("Correo electronico no valido").required("Campo obligatorio"),
@@ -37,9 +36,9 @@ const Login = props => {
   }
 
   return (
-    <div className={classes.LoginContainer}>
+    <div className="card-container">
       {authRedirect}
-      <Card className={classes.CustomCard}>
+      <Card className="custom-card">
         <Card.Body>
           <Card.Title className="text-center">Inicio de sesión</Card.Title>
           <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -73,8 +72,8 @@ const Login = props => {
                 {errors.password && errors.password.message}
               </Form.Control.Feedback>
             </Form.Group>
-            <div className="d-flex justify-content-between">
-              <div className="mb-4">
+            <div className="d-flex flex-column flex-sm-row justify-content-between">
+              <div className="mb-sm-4">
                 <Link to="/recuperar-clave"><small>¿Olvidaste tu contraseña?</small></Link>
               </div>
               <div className="mb-4">

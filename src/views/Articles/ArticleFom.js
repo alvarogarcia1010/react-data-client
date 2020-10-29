@@ -91,9 +91,9 @@ const ArticleFom = (props) => {
     <Card>
       <Card.Body>
         <Form noValidate onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-          <Card.Title>
+          <Card.Title className="text-center text-md-left">
             {isEmpty(watch('id'))? "Agregar artículo" : "Editar artículo"}
-            <div className="float-right">
+            <div className="float-md-right mt-2 mt-md-0">
               <Button variant="success" className="mr-1" onClick={cleanData}>Nuevo</Button>
               <Button variant="primary" type="submit">Guardar</Button>
             </div>

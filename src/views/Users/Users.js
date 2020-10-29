@@ -87,8 +87,8 @@ class Users extends Component {
           onSearch={this.searchUser}
         />
         <Container fluid>
-          <Row className="m-3">
-            <Col md={4}>
+          <Row className="my-3 mx-0">
+            <Col lg={4} className="mb-4">
               <UserFom
                 token={this.props.token}
                 user={this.state.user}
@@ -96,7 +96,7 @@ class Users extends Component {
                 cleanState={this.cleanState}
               />
             </Col>
-            <Col md={8}>
+            <Col lg={8}>
               <CustomTable 
                 title="Usuarios"
                 columns={this.columns} 
