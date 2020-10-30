@@ -101,7 +101,6 @@ const Register = props => {
                 isValid={touched.password && !errors.password}
                 isInvalid={!!errors.password}
                 disabled={isSubmitting}
-                placeholder="Password"
                 ref={register}
               />
               <Form.Control.Feedback type="invalid">
@@ -165,7 +164,7 @@ const Register = props => {
                   {' Cargando...'}
                 </Button>
                 :
-                <Button variant="primary" type="submit">Siguiente</Button>
+                <Button variant="primary" type="submit">Registrame</Button>
               }
             </div>
           </Form>
